@@ -5,3 +5,8 @@ node_modules/
 dist/
 build/
 *.log
+/test-results/
+/playwright-report/
+/playwright/.cache/
+_shot.mjs
+_verify.mjs
