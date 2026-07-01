@@ -511,7 +511,9 @@ const Input = z.object({
   email: z.string().max(200).optional().nullable(),
   phone: z.string().max(50).optional().nullable(),
   contactPerson: z.string().max(200).optional().nullable(),
-  user: z.object({ email: z.string().email(), password: z.string().min(6), name: z.string().min(1) }).optional(),
+  // Login identifier (не строгий email) — демо-конвенция использует логины без TLD
+  // (client@demo / admin@demo); вход трактует его непрозрачно.
+  user: z.object({ email: z.string().min(3).max(200), password: z.string().min(6), name: z.string().min(1) }).optional(),
 });
 
 export async function GET() {
