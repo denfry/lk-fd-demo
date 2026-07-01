@@ -6,3 +6,136 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  CLIENT
+  ADMIN
+}
+
+enum AvailabilityStatus {
+  FREE
+  SOLD
+  RESERVED_OTHER
+  NEEDS_CHECK
+}
+
+model Owner {
+  id            String         @id @default(cuid())
+  name          String         @unique
+  site          String?
+  phone         String?
+  email         String?
+  contactPerson String?
+  constructions Construction[]
+  createdAt     DateTime       @default(now())
+}
+
+model Client {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  site          String?
+  phone         String?
+  email         String?
+  contactPerson String?
+  users         User[]
+  workingLists  WorkingList[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(CLIENT)
+  client       Client?  @relation(fields: [clientId], references: [id])
+  clientId     String?
+  createdAt    DateTime @default(now())
+}
+
+model Construction {
+  id                 String     @id @default(cuid())
+  owner              Owner      @relation(fields: [ownerId], references: [id])
+  ownerId            String
+  constructionNumber String
+  ownerNumber        String?
+  type               String
+  format             String
+  district           String
+  address            String
+  lat                Float
+  lng                Float
+  lighting           Boolean    @default(false)
+  description        String?
+  panoramaUrl        String?
+  surfaces           Surface[]
+}
+
+model Surface {
+  id             String            @id @default(cuid())
+  construction   Construction      @relation(fields: [constructionId], references: [id], onDelete: Cascade)
+  constructionId String
+  sideCode       String
+  direction      String?
+  gid            String?
+  surfaceNumber  String?
+  photoUrl       String?
+  mapPhotoUrl    String?
+  grp            Float?
+  ots            Float?
+  esparId        String?
+  oneShowSec     Int?
+  showsPerDay    Int?
+  material       String?
+  printType      String?
+  montage        String?
+  availability   Availability[]
+  listItems      WorkingListItem[]
+}
+
+model Availability {
+  id         String             @id @default(cuid())
+  surface    Surface            @relation(fields: [surfaceId], references: [id], onDelete: Cascade)
+  surfaceId  String
+  period     DateTime
+  status     AvailabilityStatus
+  priceNet   Int?
+  priceGross Int?
+  @@unique([surfaceId, period])
+  @@index([period, status])
+}
+
+model WorkingList {
+  id        String            @id @default(cuid())
+  client    Client            @relation(fields: [clientId], references: [id])
+  clientId  String
+  name      String
+  createdAt DateTime          @default(now())
+  items     WorkingListItem[]
+}
+
+model WorkingListItem {
+  id        String      @id @default(cuid())
+  list      WorkingList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  listId    String
+  surface   Surface     @relation(fields: [surfaceId], references: [id], onDelete: Cascade)
+  surfaceId String
+  addedAt   DateTime    @default(now())
+  @@unique([listId, surfaceId])
+}
+
+model FeedImport {
+  id           String   @id @default(cuid())
+  fileName     String
+  importedAt   DateTime @default(now())
+  createdCount Int
+  updatedCount Int
+  ownerId      String?
+}
+
+model ErrorReport {
+  id        String   @id @default(cuid())
+  surfaceId String
+  reasons   String[]
+  comment   String?
+  createdAt DateTime @default(now())
+}

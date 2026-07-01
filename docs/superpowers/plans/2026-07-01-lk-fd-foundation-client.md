@@ -197,11 +197,26 @@ git commit -m "chore: scaffold Next.js + Prisma + tooling"
 
 Replace `prisma/schema.prisma`:
 ```prisma
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+generator client {
+  provider = "prisma-client-js"
+}
 
-enum Role { CLIENT ADMIN }
-enum AvailabilityStatus { FREE SOLD RESERVED_OTHER NEEDS_CHECK }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+}
+
+enum AvailabilityStatus {
+  FREE
+  SOLD
+  RESERVED_OTHER
+  NEEDS_CHECK
+}
 
 model Owner {
   id            String         @id @default(cuid())
