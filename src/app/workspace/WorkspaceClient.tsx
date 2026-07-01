@@ -7,6 +7,7 @@ import { FilterBar, type Facets, type ActiveFilters } from "@/components/workspa
 import { SurfaceList, type SurfaceListDTO } from "@/components/workspace/SurfaceList";
 import { SideCard } from "@/components/workspace/SideCard";
 import { WorkingListsPanel } from "@/components/workspace/WorkingListsPanel";
+import { Legend } from "@/components/workspace/Legend";
 
 function toQuery(f: ActiveFilters): string {
   const sp = new URLSearchParams();
@@ -54,6 +55,7 @@ export function WorkspaceClient({ facets }: { facets: Facets }) {
         <Panel defaultSize={48} minSize={30}>
           <div className="flex h-full flex-col">
             <FilterBar facets={facets} filters={filters} onChange={setFilters} tab={tab} onTab={setTab} count={surfaces.length} />
+            {tab === "map" && <Legend />}
             <div className="relative flex-1">
               {tab === "map"
                 ? <MapView markers={markers} selectedId={selectedId} onSelect={setSelectedId} />
