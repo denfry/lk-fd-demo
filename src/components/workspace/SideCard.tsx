@@ -20,8 +20,13 @@ export function SideCard({ surfaceId }: { surfaceId: string | null }) {
 
   useEffect(() => {
     if (!surfaceId) { setDetail(null); return; }
-    setSent(false); setReasons([]); setComment("");
-    fetch(`/api/surfaces/${surfaceId}`).then((r) => r.json()).then(setDetail).catch(() => setDetail(null));
+    setSent(false); setReasons([]); setComment(""); setDetail(null);
+    const ctrl = new AbortController();
+    fetch(`/api/surfaces/${surfaceId}`, { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setDetail(d))
+      .catch(() => { /* aborted or network error */ });
+    return () => ctrl.abort();
   }, [surfaceId]);
 
   if (!surfaceId) return <div className="flex h-full items-center justify-center p-4 text-sm text-slate-400">Выберите поверхность на карте или в списке</div>;

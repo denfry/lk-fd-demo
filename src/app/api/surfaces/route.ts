@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { getClientId } from "@/lib/session";
 import { parseFilters, buildSurfaceWhere } from "@/lib/domain/filters";
 import { aggregateStatus, type MonthAvailability } from "@/lib/domain/availability";
 import { periodKey } from "@/lib/serialize";
 
 export async function GET(req: NextRequest) {
+  const clientId = await getClientId();
+  if (!clientId) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const filters = parseFilters(req.nextUrl.searchParams);
   const where = buildSurfaceWhere(filters);
   const rows = await prisma.surface.findMany({
     where,
     take: 500,
+    orderBy: { id: "asc" },
     include: { construction: { include: { owner: true } }, availability: true },
   });
   const surfaces = rows.map((s) => {

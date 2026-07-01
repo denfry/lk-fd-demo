@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { STATUS_LABELS, type AvailabilityStatus } from "@/lib/domain/availability";
 
 export interface Facets { owners: { id: string; name: string }[]; districts: string[]; formats: string[]; types: string[]; sides: string[]; periods: string[] }
@@ -26,7 +26,15 @@ function Multi({ label, options, values, onChange }: { label: string; options: {
 
 export function FilterBar({ facets, filters, onChange, tab, onTab, count }: { facets: Facets; filters: ActiveFilters; onChange: (f: ActiveFilters) => void; tab: "map" | "list"; onTab: (t: "map" | "list") => void; count: number }) {
   const [q, setQ] = useState(filters.q);
-  useEffect(() => { const t = setTimeout(() => onChange({ ...filters, q }), 300); return () => clearTimeout(t); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [q]);
+  // Keep the latest filters in a ref so the debounced update merges `q` into the
+  // current selection instead of a stale snapshot captured when the timer started
+  // (otherwise clicking a facet mid-typing would be reverted when the timer fires).
+  const filtersRef = useRef(filters);
+  filtersRef.current = filters;
+  useEffect(() => {
+    const t = setTimeout(() => onChange({ ...filtersRef.current, q }), 300);
+    return () => clearTimeout(t);
+  }, [q, onChange]);
   const patch = (p: Partial<ActiveFilters>) => onChange({ ...filters, ...p });
   const statusOpts = (Object.keys(STATUS_LABELS) as AvailabilityStatus[]).map((s) => ({ value: s, label: STATUS_LABELS[s] }));
 

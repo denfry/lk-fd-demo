@@ -12,6 +12,7 @@ export interface SurfaceFilters {
 }
 
 const VALID_STATUS = new Set(["FREE","SOLD","RESERVED_OTHER","NEEDS_CHECK"]);
+const PERIOD_RE = /^\d{4}-\d{2}$/;
 
 export function parseFilters(sp: URLSearchParams): SurfaceFilters {
   const all = (k: string) => sp.getAll(k).filter(Boolean);
@@ -21,7 +22,7 @@ export function parseFilters(sp: URLSearchParams): SurfaceFilters {
     formats: all("format"),
     types: all("type"),
     sides: all("side"),
-    periods: all("period"),
+    periods: all("period").filter((p) => PERIOD_RE.test(p)),
     statuses: all("status").filter((s) => VALID_STATUS.has(s)) as AvailabilityStatus[],
     q: sp.get("q")?.trim() || null,
   };

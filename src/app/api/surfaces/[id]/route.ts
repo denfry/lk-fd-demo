@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { getClientId } from "@/lib/session";
 import { periodKey } from "@/lib/serialize";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const clientId = await getClientId();
+  if (!clientId) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { id } = await params;
   const s = await prisma.surface.findUnique({
     where: { id },

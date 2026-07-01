@@ -25,4 +25,12 @@ describe("aggregateStatus", () => {
     const months = [m("2026-01", "RESERVED_OTHER"), m("2026-02", "NEEDS_CHECK")];
     expect(aggregateStatus(months, [])).toBe("NEEDS_CHECK");
   });
+  it("falls through to RESERVED_OTHER when only reserved/sold mix remains", () => {
+    const months = [m("2026-01", "RESERVED_OTHER"), m("2026-02", "SOLD")];
+    expect(aggregateStatus(months, [])).toBe("RESERVED_OTHER");
+  });
+  it("returns NEEDS_CHECK when scope is empty (selected periods have no data)", () => {
+    const months = [m("2026-01", "FREE")];
+    expect(aggregateStatus(months, ["2026-12"])).toBe("NEEDS_CHECK");
+  });
 });

@@ -1,12 +1,9 @@
-import { auth } from "@/lib/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "@/lib/auth.config";
 
-export default auth((req) => {
-  const path = req.nextUrl.pathname;
-  const isProtected = path.startsWith("/workspace") || path.startsWith("/admin");
-  if (isProtected && !req.auth) {
-    const url = new URL("/login", req.nextUrl.origin);
-    return Response.redirect(url);
-  }
-});
+// Edge-safe middleware: uses only the base config (no Prisma/bcrypt). The
+// `authorized` callback in authConfig decides access and triggers the redirect
+// to /login for protected paths.
+export default NextAuth(authConfig).auth;
 
 export const config = { matcher: ["/workspace/:path*", "/admin/:path*"] };

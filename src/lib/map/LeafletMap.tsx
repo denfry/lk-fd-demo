@@ -27,6 +27,7 @@ export default function LeafletMap({ markers, onSelect }: MapViewProps) {
     clusterRef.current = (L as any).markerClusterGroup();
     map.addLayer(clusterRef.current);
     mapRef.current = map;
+    return () => { map.remove(); mapRef.current = null; clusterRef.current = null; };
   }, []);
 
   useEffect(() => {

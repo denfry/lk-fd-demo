@@ -29,4 +29,14 @@ describe("buildSurfaceWhere", () => {
     expect(where.construction).toBeUndefined();
     expect(where.availability).toBeUndefined();
   });
+  it("builds an OR text search across address/number/gid for q", () => {
+    const where: any = buildSurfaceWhere(parseFilters(new URLSearchParams("q=Ленина")));
+    expect(Array.isArray(where.OR)).toBe(true);
+    expect(where.OR).toHaveLength(4);
+    expect(where.OR[0].construction.address.contains).toBe("Ленина");
+  });
+  it("drops malformed period values", () => {
+    const f = parseFilters(new URLSearchParams("period=2026-07&period=garbage&period=2026-13-01"));
+    expect(f.periods).toEqual(["2026-07"]);
+  });
 });
