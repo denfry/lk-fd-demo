@@ -11,8 +11,10 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     authorized({ auth, request }) {
       const path = request.nextUrl.pathname;
-      const isProtected = path.startsWith("/workspace") || path.startsWith("/admin");
-      if (isProtected) return !!auth?.user;
+      // Edge layer only enforces authentication (redirect anon -> /login).
+      // Role enforcement (ADMIN-only, with a non-admin -> /workspace redirect)
+      // is done server-side in requireAdmin(), which the /admin layout runs.
+      if (path.startsWith("/admin") || path.startsWith("/workspace")) return !!auth?.user;
       return true;
     },
     jwt({ token, user }) {

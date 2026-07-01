@@ -60,15 +60,18 @@ tests/e2e/admin.spec.ts
 - Consumes: `auth` из `@/lib/auth`.
 - Produces: `async function requireAdmin(): Promise<Session>` из `@/lib/admin/guard` — редиректит на `/workspace` (не-админ) или `/login` (нет сессии), иначе возвращает сессию.
 
-- [ ] **Step 1: Ограничить /admin ролью ADMIN в edge-middleware**
+- [ ] **Step 1: Требовать аутентификацию для /admin в edge-middleware**
+
+Edge-слой проверяет только аутентификацию (аноним → `/login`). Ролевое
+ограничение (только ADMIN; не-админ → `/workspace`) делает серверный
+`requireAdmin()` в layout — иначе NextAuth при `authorized:false` шлёт
+залогиненного клиента на `/login`, а не на `/workspace`.
 
 В `src/lib/auth.config.ts`, заменить `authorized`:
 ```ts
 authorized({ auth, request }) {
   const path = request.nextUrl.pathname;
-  const user = auth?.user as { role?: string } | undefined;
-  if (path.startsWith("/admin")) return user?.role === "ADMIN";
-  if (path.startsWith("/workspace")) return !!user;
+  if (path.startsWith("/admin") || path.startsWith("/workspace")) return !!auth?.user;
   return true;
 },
 ```
