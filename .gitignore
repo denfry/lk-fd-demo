@@ -10,3 +10,4 @@ build/
 /playwright/.cache/
 _shot.mjs
 _verify.mjs
+next-env.d.ts
