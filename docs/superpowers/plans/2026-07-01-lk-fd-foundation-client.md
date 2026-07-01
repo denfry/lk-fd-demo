@@ -13,6 +13,7 @@
 - Node.js ≥ 20, package manager: `npm`.
 - Next.js 16 App Router (installed by `create-next-app@latest`; plan text says "15" — 16 is compatible with all patterns here), TypeScript strict mode.
 - Prisma pinned to **6.x** (`@prisma/client@6` + `prisma@6`) so `import { PrismaClient } from "@prisma/client"` works as written; Prisma 7 changed client generation and would require different import paths.
+- `react-resizable-panels` pinned to **2.x** — v4 renamed exports (`Group`/`Separator`); the plan uses the v2 `PanelGroup`/`Panel`/`PanelResizeHandle` API.
 - Язык всего UI — **русский**.
 - Роли: `CLIENT`, `ADMIN` (enum в Prisma). Этот план реализует только клиентские экраны, но модель и роли заводятся полностью.
 - Статусы занятости (enum `AvailabilityStatus`): `FREE`, `SOLD`, `RESERVED_OTHER`, `NEEDS_CHECK`. Русские подписи: Свободно / Продано / Чужой резерв / Необходимо уточнить.
