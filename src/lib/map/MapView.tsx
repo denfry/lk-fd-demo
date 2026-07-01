@@ -1,9 +1,10 @@
 "use client";
 import dynamic from "next/dynamic";
-import type { MapViewProps } from "./provider";
+import { getMapProvider, type MapViewProps } from "./provider";
 
 const LeafletMap = dynamic(() => import("./LeafletMap"), { ssr: false });
+const YandexMap = dynamic(() => import("./YandexMap"), { ssr: false });
 
 export function MapView(props: MapViewProps) {
-  return <LeafletMap {...props} />;
+  return getMapProvider() === "yandex" ? <YandexMap {...props} /> : <LeafletMap {...props} />;
 }
