@@ -1,6 +1,6 @@
 # ЛК FD — Админка + Импорт фидов. Implementation Plan (План 2)
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+Каждая задача — с точными путями файлов, готовым кодом, командами и коммитом; шаги оформлены чек-боксами (`- [ ]`) для отслеживания прогресса.
 
 **Goal:** Добавить административную панель поверх готового фундамента: управление владельцами, клиентами/пользователями, конструкциями/сторонами/ценами, импорт нормализованного фида и дашборд со статистикой.
 

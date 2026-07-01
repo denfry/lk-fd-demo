@@ -1,6 +1,6 @@
 # ЛК FD — Фундамент + Клиентский рабочий стол. Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+Каждая задача — с точными путями файлов, готовым кодом, командами и коммитом; шаги оформлены чек-боксами (`- [ ]`) для отслеживания прогресса.
 
 **Goal:** Собрать работающее демо личного кабинета медиаселлера OOH: клиент входит, ищет рекламные поверхности на карте и в списке, смотрит карточку стороны с занятостью по месяцам, собирает рабочие списки и выгружает их в Excel.
 
