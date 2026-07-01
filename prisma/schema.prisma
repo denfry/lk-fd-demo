@@ -68,6 +68,7 @@ model Construction {
   description        String?
   panoramaUrl        String?
   surfaces           Surface[]
+  @@unique([ownerId, constructionNumber])
 }
 
 model Surface {

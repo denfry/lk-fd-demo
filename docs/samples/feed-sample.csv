@@ -1,0 +1,3 @@
+ownerName,constructionNumber,ownerNumber,type,format,district,address,lat,lng,lighting,sideCode,direction,surfaceNumber,gid,grp,ots,period,status,priceNet
+Демо Владелец,999001,77.1,Билборд 3х6,3х6,Невский,Тестовая ул. д.1,59.93,30.34,да,А,прямое,999001,999001А,5.0,40000,2026-07,FREE,110000
+Демо Владелец,999001,77.1,Билборд 3х6,3х6,Невский,Тестовая ул. д.1,59.93,30.34,да,Б,обратное,999002,999001Б,4.0,35000,2026-07,SOLD,110000
