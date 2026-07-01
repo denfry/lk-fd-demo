@@ -11,3 +11,6 @@ build/
 _shot.mjs
 _verify.mjs
 next-env.d.ts
+
+# Client-confidential source brief (kept local, not published)
+*.xlsx

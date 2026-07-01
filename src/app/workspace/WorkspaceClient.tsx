@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
+import { signOut } from "next-auth/react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { MapView } from "@/lib/map/MapView";
 import type { MapMarker } from "@/lib/map/provider";
@@ -45,7 +46,7 @@ export function WorkspaceClient({ facets }: { facets: Facets }) {
     <div className="flex h-screen flex-col">
       <header className="flex items-center justify-between border-b bg-white px-4 py-2">
         <h1 className="font-semibold">Личный кабинет FD</h1>
-        <a href="/api/auth/signout" className="text-sm text-slate-500">Выйти</a>
+        <button onClick={() => signOut({ callbackUrl: "/login" })} className="text-sm text-slate-500 hover:text-slate-800">Выйти</button>
       </header>
       <PanelGroup direction="horizontal" className="flex-1">
         <Panel defaultSize={26} minSize={18}>

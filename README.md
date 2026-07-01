@@ -1,19 +1,34 @@
-# Личный кабинет FD — демо
+# Личный кабинет FD
 
-Full-stack демо личного кабинета медиаселлера наружной рекламы (OOH). Система
-агрегирует рекламные конструкции разных Владельцев и даёт Клиенту-рекламодателю
-искать поверхности на карте и в списке, смотреть занятость по месяцам, собирать
-рабочие списки и выгружать их в Excel.
+**Full-stack демо личного кабинета медиаселлера наружной рекламы (OOH):**
+интерактивная карта размещений, подбор рекламных поверхностей, занятость по
+месяцам, рабочие списки с выгрузкой в Excel и админ-панель с импортом фидов.
 
-> Демо-проект для портфолio на основе реального техзадания. Данные —
+<p>
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green.svg">
+  <img alt="CI" src="https://github.com/denfry/lk-fd-demo/actions/workflows/ci.yml/badge.svg">
+  <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white">
+  <img alt="Prisma" src="https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white">
+  <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white">
+</p>
+
+![Рабочий стол — карта размещений](docs/screenshots/workspace-map.png)
+
+> Демо-проект для портфолио на основе реального техзадания. Данные —
 > сгенерированные (≈200 поверхностей по Санкт-Петербургу), фото/панорамы —
-> плейсхолдеры.
+> плейсхолдеры. Карта работает «из коробки» на OpenStreetMap, без ключей.
+
+## Демо-доступ (вход в один клик)
+
+На странице `/login` — кнопки «Войти как Клиент / как Админ»:
+
+| Роль    | Логин         | Пароль     |
+|---------|---------------|------------|
+| Клиент  | `client@demo` | `demo1234` |
+| Админ   | `admin@demo`  | `demo1234` |
 
 ## Скриншоты
-
-Рабочий стол — 3 зоны (карточка стороны · карта/список · рабочие списки):
-
-![Карта](docs/screenshots/workspace-map.png)
 
 Карточка стороны с календарём занятости по месяцам и формой правок:
 
@@ -111,10 +126,15 @@ npm run e2e  # e2e (Playwright): клиентский путь + доступ к
 
 Рекомендуется Vercel + управляемый PostgreSQL (Neon / Vercel Postgres):
 
-1. Задайте переменные окружения: `DATABASE_URL`, `AUTH_SECRET`
-   (и опционально `NEXT_PUBLIC_YANDEX_API_KEY`).
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/denfry/lk-fd-demo)
+
+1. Заведите бесплатную БД (Neon) и задайте переменные окружения:
+   `DATABASE_URL`, `AUTH_SECRET` (и опционально `NEXT_PUBLIC_YANDEX_API_KEY`).
 2. Примените миграции к боевой БД: `npx prisma migrate deploy`.
 3. Заполните демо-данными: `npm run db:seed`.
+
+> После деплоя демо открывается по публичной ссылке и работает сразу — карта на
+> OpenStreetMap не требует ключей, вход в кабинет в один клик.
 
 ## Структура
 
@@ -134,5 +154,5 @@ tests/                  # unit (Vitest) + e2e (Playwright)
 ## Дальнейшее развитие
 
 Оба этапа реализованы: **План 1** — кабинет клиента, **План 2** — админка и импорт
-фидов (см. `docs/superpowers/plans/`). Возможные направления: отправка отчётов об
+фидов (см. `docs/plans/`). Возможные направления: отправка отчётов об
 ошибках на почту, ролевая модель менеджеров, реальные фото/панорамы, аналитика.
