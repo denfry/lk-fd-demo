@@ -1,158 +1,147 @@
-# Личный кабинет FD
+# LK FD — Client Portal Demo
 
-**Full-stack демо личного кабинета медиаселлера наружной рекламы (OOH):**
-интерактивная карта размещений, подбор рекламных поверхностей, занятость по
-месяцам, рабочие списки с выгрузкой в Excel и админ-панель с импортом фидов.
+**A full-stack demo of a client portal for an out-of-home (OOH) advertising media seller:** an interactive placement map, ad surface selection, monthly availability, working lists with Excel export, and an admin panel with feed import.
 
-<p>
-  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green.svg">
-  <img alt="CI" src="https://github.com/denfry/lk-fd-demo/actions/workflows/ci.yml/badge.svg">
-  <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs">
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white">
-  <img alt="Prisma" src="https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white">
-  <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white">
-</p>
+![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)
+[![CI](https://github.com/denfry/lk-fd-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/denfry/lk-fd-demo/actions/workflows/ci.yml)
+![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![Prisma 6](https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white)
+![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
 
-![Рабочий стол — карта размещений](docs/screenshots/workspace-map.png)
+![Workspace — placement map](docs/screenshots/workspace-map.png)
 
-> Демо-проект для портфолио на основе реального техзадания. Данные —
-> сгенерированные (≈200 поверхностей по Санкт-Петербургу), фото/панорамы —
-> плейсхолдеры. Карта работает «из коробки» на OpenStreetMap, без ключей.
+> A portfolio project based on a real client brief. All data is generated (about 200 ad surfaces in Saint Petersburg) and photos/panoramas are placeholders. The map works out of the box on OpenStreetMap and needs no API keys.
+>
+> The application UI is in Russian.
 
-## Демо-доступ (вход в один клик)
+## Demo accounts
 
-На странице `/login` — кнопки «Войти как Клиент / как Админ»:
+The `/login` page has one-click buttons to sign in as a client or as an admin. The same credentials work manually:
 
-| Роль    | Логин         | Пароль     |
-|---------|---------------|------------|
-| Клиент  | `client@demo` | `demo1234` |
-| Админ   | `admin@demo`  | `demo1234` |
+| Role   | Login         | Password   |
+|--------|---------------|------------|
+| Client | `client@demo` | `demo1234` |
+| Admin  | `admin@demo`  | `demo1234` |
 
-## Скриншоты
+These accounts exist only in the seeded demo database. Do not use them in a real deployment.
 
-Карточка стороны с календарём занятости по месяцам и формой правок:
+## Screenshots
 
-![Карточка и список](docs/screenshots/workspace-card.png)
+Surface card with the monthly availability calendar and the corrections form:
 
-Админка (роль `ADMIN`): дашборд, справочники и импорт фида:
+![Surface card and list](docs/screenshots/workspace-card.png)
 
-![Админка](docs/screenshots/admin-dashboard.png)
+Admin panel (`ADMIN` role): dashboard, reference data and feed import:
 
-## Возможности
+![Admin panel](docs/screenshots/admin-dashboard.png)
 
-### Кабинет клиента
+## Features
 
-- **Вход по логину/паролю** (Auth.js, роли `CLIENT`/`ADMIN`), защита маршрутов.
-- **3-зонный рабочий стол** с перетаскиваемыми бегунками (react-resizable-panels).
-- **Карта** (Leaflet + OpenStreetMap) с кластеризацией маркеров и цветом по статусу;
-  опционально — Яндекс.Карты по env-ключу.
-- **Фильтры** по владельцу, району, формату, типу, стороне, периоду и свободности
-  (состояние отражается в запросе к API).
-- **Список** (TanStack Table) с настройкой видимости колонок.
-- **Карточка стороны**: реквизиты, GRP/OTS, координаты, **календарь занятости по
-  месяцам** (Свободно / Продано / Чужой резерв / Уточнить + цена), форма «Ошибки,
-  неточности».
-- **Рабочие списки**: создание/переименование/удаление, добавление поверхностей
-  по номерам (вставка нескольких ID), «Загрузить на карту», **выгрузка в Excel**.
+### Client workspace
 
-### Админка (роль `ADMIN`, `/admin`)
+- **Login with email and password** (Auth.js, `CLIENT` / `ADMIN` roles) and protected routes.
+- **Three-zone workspace** with draggable splitters (react-resizable-panels).
+- **Map** (Leaflet + OpenStreetMap) with marker clustering and status colors; Yandex Maps is optional via an environment key.
+- **Filters** by owner, district, format, type, side, period and availability; the filter state is reflected in the API request.
+- **List view** (TanStack Table) with configurable column visibility.
+- **Surface card:** details, GRP/OTS, coordinates, a **monthly availability calendar** (Free / Sold / Reserved by others / Needs check, with price) and an "errors and inaccuracies" report form.
+- **Working lists:** create, rename and delete lists; add surfaces by ID (paste several at once); load a list onto the map; **export to Excel**.
 
-- **Дашборд** со статистикой (владельцы, клиенты, конструкции, поверхности, % занятости).
-- **Владельцы** — CRUD (с защитой от удаления при наличии конструкций).
-- **Клиенты и пользователи** — создание клиента с логином/паролем; новый пользователь
-  сразу может войти в кабинет.
-- **Конструкции и стороны** — список с поиском/пагинацией, создание, **редактор
-  занятости и цен по месяцам** (изменения сразу видны клиенту).
-- **Импорт фида** — загрузка нормализованного CSV/XLSX: идемпотентный upsert
-  владелец → конструкция → сторона → занятость, лог импортов, отчёт об ошибках строк.
-  Формат и пример — см. `docs/samples/feed-sample.csv`.
+### Admin panel (`ADMIN` role, `/admin`)
 
-## Стек
+- **Dashboard** with statistics: owners, clients, constructions, surfaces, occupancy percentage.
+- **Owners:** CRUD, with deletion blocked while an owner still has constructions.
+- **Clients and users:** create a client with a login and password; the new user can sign in immediately.
+- **Constructions and surfaces:** searchable, paginated list; creation; an **availability and price editor by month** (changes are visible to clients immediately).
+- **Feed import:** upload a normalized CSV or XLSX file. The import is an idempotent upsert of owner, construction, surface and availability, with an import log and a per-row error report. See `docs/samples/feed-sample.csv` for the format.
 
-Next.js 16 (App Router, TypeScript) · Prisma 6 + PostgreSQL · Auth.js (NextAuth v5)
-· Tailwind CSS · TanStack Table · react-leaflet + leaflet.markercluster · exceljs ·
-papaparse · Zod · Vitest · Playwright.
+## Tech stack
 
-## Быстрый старт (локально)
+Next.js 16 (App Router, TypeScript) · Prisma 6 + PostgreSQL · Auth.js (NextAuth v5) · Tailwind CSS · TanStack Table · react-leaflet + leaflet.markercluster · exceljs · papaparse · Zod · Vitest · Playwright.
 
-Требуется Node ≥ 20 и Docker.
+## Quick start
+
+Requires Node.js 20 or newer and Docker.
 
 ```bash
-# 1. Зависимости
+# 1. Dependencies
 npm install
 
-# 2. База данных (PostgreSQL в Docker)
+# 2. Database (PostgreSQL in Docker)
 docker compose up -d
 
-# 3. Окружение
-cp .env.example .env        # при необходимости поменяйте AUTH_SECRET
+# 3. Environment
+cp .env.example .env        # PowerShell: Copy-Item .env.example .env
 
-# 4. Схема и демо-данные
+# 4. Schema and demo data
 npx prisma migrate dev
 npm run db:seed
 
-# 5. Запуск
+# 5. Run
 npm run dev                 # http://localhost:3000
 ```
 
-### Демо-доступы (на странице входа — кнопки в один клик)
+## Configuration
 
-| Роль    | Логин         | Пароль     |
-|---------|---------------|------------|
-| Клиент  | `client@demo` | `demo1234` |
-| Админ   | `admin@demo`  | `demo1234` |
+Environment variables (see `.env.example`):
 
-## Карта: OpenStreetMap или Яндекс
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string. The default matches `docker-compose.yml`. |
+| `AUTH_SECRET` | Auth.js secret. Replace the placeholder outside local development. |
+| `NEXT_PUBLIC_YANDEX_API_KEY` | Optional. Switches the map from OpenStreetMap to Yandex Maps. |
 
-По умолчанию используется бесплатный Leaflet + OpenStreetMap (без ключа —
-работает сразу). Чтобы переключиться на Яндекс.Карты (с панорамами), задайте в
-`.env`:
+### Map provider: OpenStreetMap or Yandex
+
+By default the app uses Leaflet with OpenStreetMap, which needs no key. To switch to Yandex Maps (with panoramas), set the key in `.env`:
 
 ```
-NEXT_PUBLIC_YANDEX_API_KEY="ваш-ключ"
+NEXT_PUBLIC_YANDEX_API_KEY="your-key"
 ```
 
-Ключ получается бесплатно в кабинете разработчика Яндекса (JS API 3.0,
-25 000 запросов/день). Выбор провайдера — автоматически по наличию ключа.
+A key can be obtained for free in the Yandex developer console (JS API 3.0, 25,000 requests per day). The provider is chosen automatically depending on whether the key is set.
 
-## Тесты
+## Testing
 
 ```bash
-npm test     # unit (Vitest): занятость, фильтры, парсер ID, экспорт, парсер фида
-npm run e2e  # e2e (Playwright): клиентский путь + доступ к админке
+npm test      # unit tests (Vitest): availability, filters, ID paste parser, export, feed parser
+npm run e2e   # end-to-end tests (Playwright): client flow and admin access
+npm run lint  # ESLint
 ```
 
-## Деплой
+CI (`.github/workflows/ci.yml`) runs `npm ci`, Prisma client generation, lint, unit tests and a production build on every push and pull request to `master`.
 
-Рекомендуется Vercel + управляемый PostgreSQL (Neon / Vercel Postgres):
+## Deployment
+
+The project is designed for Vercel with a managed PostgreSQL database (Neon or Vercel Postgres):
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/denfry/lk-fd-demo)
 
-1. Заведите бесплатную БД (Neon) и задайте переменные окружения:
-   `DATABASE_URL`, `AUTH_SECRET` (и опционально `NEXT_PUBLIC_YANDEX_API_KEY`).
-2. Примените миграции к боевой БД: `npx prisma migrate deploy`.
-3. Заполните демо-данными: `npm run db:seed`.
+1. Create a database (for example on Neon) and set `DATABASE_URL` and `AUTH_SECRET`, plus `NEXT_PUBLIC_YANDEX_API_KEY` if needed.
+2. Apply migrations to the production database: `npx prisma migrate deploy`.
+3. Load the demo data: `npm run db:seed`.
 
-> После деплоя демо открывается по публичной ссылке и работает сразу — карта на
-> OpenStreetMap не требует ключей, вход в кабинет в один клик.
-
-## Структура
+## Project layout
 
 ```
-prisma/                 # схема, миграции, seed
-src/lib/domain/         # чистая бизнес-логика (покрыта unit-тестами: занятость, фильтры, ID, экспорт, фид)
-src/lib/map/            # адаптер карты (Leaflet по умолчанию, Yandex опционально)
-src/lib/admin/          # серверные хелперы админки (guard, stats, api-guard)
-src/app/api/            # REST-эндпоинты клиента (surfaces, working-lists, error-reports, auth)
-src/app/api/admin/      # REST-эндпоинты админки (owners, clients, constructions, surfaces, feed-import)
-src/app/workspace/      # рабочий стол клиента
-src/app/admin/          # админ-панель (дашборд, справочники, импорт)
-src/components/          # workspace/* и admin/* компоненты
-tests/                  # unit (Vitest) + e2e (Playwright)
+prisma/                 # schema, migrations, seed
+src/lib/domain/         # pure business logic, unit-tested: availability, filters, ID parsing, export, feed
+src/lib/map/            # map adapter (Leaflet by default, Yandex optional)
+src/lib/admin/          # admin server helpers (guard, stats, api-guard)
+src/app/api/            # client REST endpoints (surfaces, working-lists, error-reports, auth)
+src/app/api/admin/      # admin REST endpoints (owners, clients, constructions, surfaces, feed-import)
+src/app/workspace/      # client workspace
+src/app/admin/          # admin panel (dashboard, reference data, import)
+src/components/         # workspace/* and admin/* components
+tests/                  # unit (Vitest) and e2e (Playwright)
+docs/                   # design spec, implementation plans, sample feed, screenshots
 ```
 
-## Дальнейшее развитие
+## Status and roadmap
 
-Оба этапа реализованы: **План 1** — кабинет клиента, **План 2** — админка и импорт
-фидов (см. `docs/plans/`). Возможные направления: отправка отчётов об
-ошибках на почту, ролевая модель менеджеров, реальные фото/панорамы, аналитика.
+Both planned stages are implemented: the client workspace and the admin panel with feed import (see `docs/plans/`). Possible next steps: emailing error reports, a manager role model, real photos and panoramas, analytics.
+
+## License
+
+[MIT](LICENSE)
